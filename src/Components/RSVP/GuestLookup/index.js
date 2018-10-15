@@ -16,9 +16,7 @@ class GuestLookup extends Component {
 
         let endpoint = this.props.endpoint;
         let { firstName, lastName } = this.state;
-        
         let url = `${endpoint}/find/${firstName}/${lastName}`;
-        console.log(`url: ${url}`);
 
         fetch(url)
             .then(response => response.json())
@@ -37,21 +35,36 @@ class GuestLookup extends Component {
     render() {
         return (
             <div className="guest-lookup">
-                <label htmlFor="firstName">First Name: </label>
-                <input 
-                    type="text" 
-                    value={this.state.firstName} 
-                    id="firstName" 
-                    name="firstName" 
-                    onChange={this.handleChange} />
-                <label htmlFor="lastName">Last Name: </label>
-                <input 
-                    type="text" 
-                    value={this.state.lastName} 
-                    id="lastName" 
-                    name="lastName"
-                    onChange={this.handleChange}  />
-                <button onClick={this.lookupGuest}>Lookup Invitation</button>
+                <h2>Lookup Your Invitation</h2>
+                <p>
+                    Enter your first and last name <strong><em>as it appears on 
+                    your</em></strong> invitation to find your RSVP for your and 
+                    your family or group.
+                </p>
+                <div className="form-group">
+                    <label htmlFor="firstName">First Name: </label>
+                    <input 
+                        className="form-control"
+                        type="text" 
+                        value={this.state.firstName} 
+                        id="firstName" 
+                        name="firstName" 
+                        onChange={this.handleChange} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="lastName">Last Name: </label>
+                    <input 
+                        className="form-control"
+                        type="text" 
+                        value={this.state.lastName} 
+                        id="lastName" 
+                        name="lastName"
+                        onChange={this.handleChange} />
+                </div>
+                <button 
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.lookupGuest}>Lookup Invitation</button>
             </div>
         );
     }

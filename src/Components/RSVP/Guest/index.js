@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
+import GuestForm from './GuestForm';
+import GuestDisplay from './GuestDisplay';
 
 class Guest extends Component {
     constructor(props) {
         super(props);
+        this.state = {};
+        
     }
 
     render() {
-        console.log('guest:', this.props.guest);
-        let { title } = this.props.guest;
-        let firstName = this.props.guest.first_name;
-        let lastName = this.props.guest.last_name;
-
-        let inputName = `${firstName}-${lastName}`;
-        let guestName = `${title} ${firstName} ${lastName}`;
         return (
-            <div className="guest">
-                <input type="radio" id={inputName} name="guests" value={inputName} />
-                <label htmlFor={inputName}>{guestName}</label>
-            </div>
+            this.props.updateSelectedGroupId || this.props.updateGuestAttending ?
+                <GuestForm
+                    guest={this.props.guest}
+                    updateSelectedGroupId={this.props.updateSelectedGroupId ?
+                        this.props.updateSelectedGroupId : null}
+                    updateGuestAttending={this.props.updateGuestAttending ?
+                        this.props.updateGuestAttending : null} 
+                    updatePlusOneAttending={this.props.updatePlusOneAttending ? 
+                        this.props.updatePlusOneAttending : null} /> :
+                <GuestDisplay
+                    guest={this.props.guest} />
         );
     }
 }

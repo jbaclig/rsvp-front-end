@@ -9,7 +9,7 @@ class Admin extends Component {
         this.state = {
             //endpoint: 'http://localhost:5000',
             endpoint: 'https://jkbaclig-rsvp.herokuapp.com',
-            loggedIn: true
+            loggedIn: false
         };
 
         this.setLoggedIn = this.setLoggedIn.bind(this);

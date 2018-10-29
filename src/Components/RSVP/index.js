@@ -9,6 +9,7 @@ class RSVP extends Component {
         super(props);
         this.state = {
             endpoint: 'https://jkbaclig-rsvp.herokuapp.com',
+            //endpoint: 'http://localhost:5000',
             /*guests: [
                 {
                     title: 'Mr.',
@@ -62,19 +63,19 @@ class RSVP extends Component {
     }
 
     setGuests(guests) {
-        this.setState({guests: guests});
+        this.setState({ guests: guests });
     }
 
     setGroupId(id) {
-        this.setState({groupId: id});
+        this.setState({ groupId: id });
     }
 
     setRsvpSent(status) {
-        this.setState({rsvpSent: status});
+        this.setState({ rsvpSent: status });
     }
 
     setUpdatedGroup(group) {
-        this.setState({updatedGroup: group});
+        this.setState({ updatedGroup: group });
     }
 
     reset(e) {
@@ -89,29 +90,40 @@ class RSVP extends Component {
 
     render() {
         return (
-            <div className="col-lg-8 col-md-10">
-                {this.state.guests ? 
-                    this.state.groupId ? 
-                        this.state.rsvpSent ? 
-                            <Confirmation
-                                group={this.state.updatedGroup}
-                                setRsvpSent={this.setRsvpSent} 
-                                reset={this.reset} 
-                                setRsvpSent={this.setRsvpSent} />
-                            : <GuestRespond 
+            <div className="container-fluid p-0">
+                <header className="App-header p-5 text-center">
+                    <h1>
+                        RSVP for Kelly &amp; Jon's Wedding<br />
+                        <small>February 1st, 2019</small><br />
+                        <small>San Diego, CA</small>
+                    </h1>
+                </header>
+                <div className="row justify-content-center px-3 mx-0">
+                    <div className="col-lg-8 col-md-10 pt-5">
+                        {this.state.guests ?
+                            this.state.groupId ?
+                                this.state.rsvpSent ?
+                                    <Confirmation
+                                        group={this.state.updatedGroup}
+                                        setRsvpSent={this.setRsvpSent}
+                                        reset={this.reset}
+                                        setRsvpSent={this.setRsvpSent} />
+                                    : <GuestRespond
+                                        endpoint={this.state.endpoint}
+                                        groupId={this.state.groupId}
+                                        setRsvpSent={this.setRsvpSent}
+                                        setUpdatedGroup={this.setUpdatedGroup}
+                                        setGroupId={this.setGroupId} />
+                                : <GuestSelect
+                                    guests={this.state.guests}
+                                    setGroupId={this.setGroupId}
+                                    setGuests={this.setGuests} />
+                            : <GuestLookup
                                 endpoint={this.state.endpoint}
-                                groupId={this.state.groupId}
-                                setRsvpSent={this.setRsvpSent}
-                                setUpdatedGroup={this.setUpdatedGroup}
-                                setGroupId={this.setGroupId} />
-                        : <GuestSelect 
-                            guests = {this.state.guests} 
-                            setGroupId={this.setGroupId}
-                            setGuests={this.setGuests} />
-                    : <GuestLookup  
-                        endpoint={this.state.endpoint} 
-                        setGuests={this.setGuests} />
-                }
+                                setGuests={this.setGuests} />
+                        }
+                    </div>
+                </div>
             </div>
         );
     }

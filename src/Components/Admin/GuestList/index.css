@@ -1,0 +1,16 @@
+.sortable:hover {
+    cursor: pointer;
+}
+
+.sortable::after {
+    font-family: Font Awesome\ 5 Free;
+    content: ' \f0dc';
+}
+
+.sortable.sorted::after {
+    content: ' \f0de';
+}
+
+.sortable.sorted.descending::after {
+    content: ' \f0dd';
+}

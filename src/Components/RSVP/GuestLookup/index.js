@@ -5,7 +5,8 @@ class GuestLookup extends Component {
         super(props);
         this.state = {
             firstName: '',
-            lastName: ''
+            lastName: '',
+            waiting: false,
         }
         this.lookupGuest = this.lookupGuest.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -20,8 +21,13 @@ class GuestLookup extends Component {
 
         fetch(url)
             .then(response => response.json())
-            .then(data => this.props.setGuests(data))
+            .then(data => {
+                this.props.setGuests(data);
+                this.setState({waiting: false});
+            })
             .catch(error => console.error(error));
+        
+        this.setState({waiting: true});
     }
 
     handleChange(e) {
@@ -38,7 +44,7 @@ class GuestLookup extends Component {
                 <h2>Lookup Your Invitation</h2>
                 <p>
                     Enter your first and last name <strong><em>as it appears on 
-                    your</em></strong> invitation to find your RSVP for your and 
+                    your invitation </em></strong>to find your RSVP for your and 
                     your family or group.
                 </p>
                 <div className="form-group">
@@ -61,10 +67,16 @@ class GuestLookup extends Component {
                         name="lastName"
                         onChange={this.handleChange} />
                 </div>
-                <button 
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.lookupGuest}>Lookup Invitation</button>
+                {this.state.waiting ? 
+                    <button 
+                    disabled
+                    className="btn btn-primary">
+                        Please Wait...
+                    </button> 
+                    : <button 
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={this.lookupGuest}>Lookup Invitation</button>}
             </div>
         );
     }

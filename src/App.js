@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import RSVP from './Components/RSVP';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Admin from './Components/Admin';
-import logo from './logo.svg';
 import './App.css';
+import createHashHistory from 'history/createHashHistory';
+    
+const hashHistory = createHashHistory({ basename: process.env.PUBLIC_URL });
 
 class App extends Component {
   render() {
     return (
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router history={hashHistory}>
         <div>
           <Route path="/" exact component={RSVP} />
           <Route path="/admin" component={Admin} />

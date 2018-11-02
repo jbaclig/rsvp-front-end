@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ListHeader from './ListHeader';
+import ListFilters from './ListFilters';
 
 class GuestList extends Component {
     constructor(props) {
@@ -7,71 +8,41 @@ class GuestList extends Component {
 
         this.state = {
             data: [],
+            activeData: [],
             sortedBy: 'id',
-            sortAscending: true
+            sortAscending: true,
+            filterStr: ''
         };
 
-        this.handleSortClick = this.handleSortClick.bind(this);
         this.sortData = this.sortData.bind(this);
         this.updateSortState = this.updateSortState.bind(this);
+        this.filterData = this.filterData.bind(this);
+        this.updateNameFilterStr = this.updateNameFilterStr.bind(this);
     }
 
     componentWillMount() {
         let url = `${this.props.endpoint}/db`;
 
-
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 data.sort((a, b) => a.id - b.id);
-                this.setState({ data: data });
+                this.setState({ 
+                    data: data,
+                    activeData: data
+                });
             });
-    }
-
-    handleSortClick(e) {
-        e.preventDefault();
-
-        console.log('handleSortClick()');
-        console.log('e.target.tagName:', e.target.tagName);
-        if(e.target.tagName === 'TH') { 
-            let sortAscending;
-            let sortProperty = e.target.dataset.filter;
-            let data = this.state.data;
-
-            if(this.state.sortedBy === sortProperty) {
-                sortAscending = !this.state.sortAscending;
-                e.target.classList.toggle('descending');
-            } else {
-                sortAscending = true;
-                e.target.classList.add('sorted');
-                if(this.state.lastSorted) 
-                    this.state.lastSorted.classList.remove('sorted', 'descending');
-            }
-                
-
-            
-            data.sort((a, b) => sortAscending ?
-                this.sortData(a, b, sortProperty)
-                : this.sortData(b, a, sortProperty));
-            
-            this.setState({ 
-                data: data,
-                sortedBy: sortProperty,
-                sortAscending: sortAscending,
-                lastSorted: e.target
-            });
-        }
     }
 
     updateSortState(sortedBy, ascending) {
-        let data = this.state.data;
+        let data = this.state.activeData;
 
         data.sort((a, b) => ascending ?
                 this.sortData(a, b, sortedBy)
                 : this.sortData(b, a, sortedBy));
 
         this.setState({
-            data: data,
+            activeData: data,
             sortedBy: sortedBy,
             sortAscending: ascending
         });
@@ -85,12 +56,25 @@ class GuestList extends Component {
             : 0;
     }
 
+    filterData(guest) {
+        let fullName = 
+            `${guest.first_name} ${guest.last_name} ${guest.suffix ? guest.suffix : ''}`;
+        
+        return (fullName.toUpperCase()).includes(this.state.filterStr.toUpperCase());
+    }
+
+    updateNameFilterStr(str) {
+        this.setState({ filterStr: str });
+    }
+
     render() {
         return (
             <div className="container-fluid p-0">
                 <div className="row justify-content-center px-3 mx-0">
                     <div className="col">
                         <h1 className="text-center">GuestList</h1>
+                        <ListFilters 
+                        updateNameFilterStr={this.updateNameFilterStr}/>
                         <table className="table table-striped">
                             <thead>
                                 <tr>
@@ -129,10 +113,11 @@ class GuestList extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.data.map(guest => {
+                                {this.state.activeData
+                                    .filter(guest => this.filterData(guest))
+                                    .map(guest => {
                                     let guestId = `guest${guest.id}`;
-                                    guest.fullName = 
-                                        `${guest.first_name} ${guest.last_name} ${guest.suffix ? guest.suffix : ''}`;
+                                    
                                     return (
                                         <tr key={guestId}>
                                             <th>{guest.id}</th>

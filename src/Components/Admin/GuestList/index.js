@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './index.css';
+import ListHeader from './ListHeader';
 
 class GuestList extends Component {
     constructor(props) {
@@ -13,6 +13,7 @@ class GuestList extends Component {
 
         this.handleSortClick = this.handleSortClick.bind(this);
         this.sortData = this.sortData.bind(this);
+        this.updateSortState = this.updateSortState.bind(this);
     }
 
     componentWillMount() {
@@ -22,7 +23,7 @@ class GuestList extends Component {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                data.sort((a, b) => a.id - b.id)
+                data.sort((a, b) => a.id - b.id);
                 this.setState({ data: data });
             });
     }
@@ -62,13 +63,26 @@ class GuestList extends Component {
         }
     }
 
+    updateSortState(sortedBy, ascending) {
+        let data = this.state.data;
+
+        data.sort((a, b) => ascending ?
+                this.sortData(a, b, sortedBy)
+                : this.sortData(b, a, sortedBy));
+
+        this.setState({
+            data: data,
+            sortedBy: sortedBy,
+            sortAscending: ascending
+        });
+    }
+
     sortData(a, b, sortProperty) {
         return sortProperty === 'id' || sortProperty === 'group_num' ?
             a[sortProperty] - b[sortProperty]
-            : a[sortProperty].toUpperCase() < b[sortProperty].toUpperCase() ? 
-                -1
-                : a[sortProperty].toUpperCase() > b[sortProperty].toUpperCase() ? 
-                    1 : 0;
+            : a[sortProperty].toUpperCase() < b[sortProperty].toUpperCase() ? -1
+            : a[sortProperty].toUpperCase() > b[sortProperty].toUpperCase() ? 1 
+            : 0;
     }
 
     render() {
@@ -80,34 +94,38 @@ class GuestList extends Component {
                         <table className="table table-striped">
                             <thead>
                                 <tr>
-                                    <th 
-                                    className="sortable"
-                                    data-filter="id"
-                                    onClick={this.handleSortClick} >
+                                    <ListHeader 
+                                    sortedBy={this.state.sortedBy}
+                                    ascending={this.state.sortAscending}
+                                    colName="id"
+                                    updateSortState={this.updateSortState} >
                                         Guest ID
-                                    </th>
-                                    <th data-filter="title">Title</th>
-                                    <th 
-                                    className="sortable"
-                                    data-filter="first_name"
-                                    onClick={this.handleSortClick}>
+                                    </ListHeader>
+                                    <ListHeader>Title</ListHeader>
+                                    <ListHeader 
+                                    sortedBy={this.state.sortedBy}
+                                    ascending={this.state.sortAscending}
+                                    colName="first_name"
+                                    updateSortState={this.updateSortState} >
                                         First Name
-                                    </th>
-                                    <th 
-                                    className="sortable"
-                                    data-filter="last_name"
-                                    onClick={this.handleSortClick}>
+                                    </ListHeader>
+                                    <ListHeader 
+                                    sortedBy={this.state.sortedBy}
+                                    ascending={this.state.sortAscending}
+                                    colName="last_name"
+                                    updateSortState={this.updateSortState} >
                                         Last Name
-                                    </th>
-                                    <th data-filter="suffix">Suffix</th>
-                                    <th 
-                                    className="sortable"
-                                    data-filter="group_num"
-                                    onClick={this.handleSortClick}>
+                                    </ListHeader>
+                                    <ListHeader>Suffix</ListHeader>
+                                    <ListHeader 
+                                    sortedBy={this.state.sortedBy}
+                                    ascending={this.state.sortAscending}
+                                    colName="group_num"
+                                    updateSortState={this.updateSortState} >
                                         Group Number
-                                    </th>
-                                    <th data-filter="attending">Attending</th>
-                                    <th data-filter="guest_attending">+1</th>
+                                    </ListHeader>
+                                    <ListHeader>Attending</ListHeader>
+                                    <ListHeader>+1</ListHeader>
                                 </tr>
                             </thead>
                             <tbody>

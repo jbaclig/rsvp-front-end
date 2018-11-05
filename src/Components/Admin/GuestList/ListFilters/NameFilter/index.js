@@ -13,13 +13,13 @@ class NameFilter extends Component {
 
     handleChange(e) {
         this.setState({ value: e.target.value }, () => {
-            this.props.updateNameFilterStr(this.state.value);
+            this.props.updateFilterState('nameFilter', this.state.value);
         });
     }
 
     render() {
         return (
-            <div className="form-group">
+            <div className="form-group col">
                 <label htmlFor="name-filter">Find Guest</label>
                 <input 
                 className="form-control"

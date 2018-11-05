@@ -1,22 +1,16 @@
-import React, { Component } from 'react';
-import NameFilter from './NameFilter';
+import React from 'react'
+import NameFilter from './NameFilter'
+import AttendingFilter from './AttendingFilter'
 
-class ListFilters extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-
-        };
-    }
-
-    render() {
-        return (
-            <div className="list-filters">
-                <NameFilter updateNameFilterStr={this.props.updateNameFilterStr} />
-            </div>
-        );
-    }
+function ListFilters(props) {
+    return (
+        <div className="row list-filters">
+            <NameFilter updateFilterState={props.updateFilterState} />
+            <AttendingFilter 
+            updateFilterState={props.updateFilterState}
+            attendingFilter={props.attendingFilter} />
+        </div>
+    )
 }
 
-export default ListFilters;
+export default ListFilters

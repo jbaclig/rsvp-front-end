@@ -8,8 +8,8 @@ class RSVP extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            endpoint: 'https://jkbaclig-rsvp.herokuapp.com',
-            //endpoint: 'http://localhost:5000',
+            //endpoint: 'https://jkbaclig-rsvp.herokuapp.com',
+            endpoint: 'http://localhost:5000',
             /*guests: [
                 {
                     title: 'Mr.',

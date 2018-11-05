@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ListHeader from './ListHeader';
+import ListHeaderGroup from './ListHeaderGroup';
 import ListFilters from './ListFilters';
+import ListBody from './ListBody';
 
 class GuestList extends Component {
     constructor(props) {
@@ -11,13 +12,15 @@ class GuestList extends Component {
             activeData: [],
             sortedBy: 'id',
             sortAscending: true,
-            filterStr: ''
+            nameFilter: '',
+            attendingFilter: ''
         };
 
         this.sortData = this.sortData.bind(this);
         this.updateSortState = this.updateSortState.bind(this);
         this.filterData = this.filterData.bind(this);
-        this.updateNameFilterStr = this.updateNameFilterStr.bind(this);
+        this.updateFilterState = this.updateFilterState.bind(this);
+        this.attendingFilter = this.attendingFilter.bind(this);
     }
 
     componentWillMount() {
@@ -59,12 +62,27 @@ class GuestList extends Component {
     filterData(guest) {
         let fullName = 
             `${guest.first_name} ${guest.last_name} ${guest.suffix ? guest.suffix : ''}`;
+        let guestAttending = guest.attending === null ? 'No Response'
+            : guest.attending ? 'Yes'
+            : 'No';
         
-        return (fullName.toUpperCase()).includes(this.state.filterStr.toUpperCase());
+        return (
+            fullName.toUpperCase().includes(this.state.nameFilter.toUpperCase()) &&
+            this.attendingFilter(guestAttending)
+        );
     }
 
-    updateNameFilterStr(str) {
-        this.setState({ filterStr: str });
+    attendingFilter(guestAttending) {
+        return this.state.attendingFilter === '' ? true
+            : this.state.attendingFilter === guestAttending
+    }
+
+
+    updateFilterState(filterName, filterVal) {
+        let stateUpdate = {};
+
+        stateUpdate[filterName] = filterVal;
+        this.setState(stateUpdate);
     }
 
     render() {
@@ -74,68 +92,17 @@ class GuestList extends Component {
                     <div className="col">
                         <h1 className="text-center">GuestList</h1>
                         <ListFilters 
-                        updateNameFilterStr={this.updateNameFilterStr}/>
+                        updateFilterState={this.updateFilterState}
+                        updateNameFilter={this.updateNameFilter}
+                        attendingFilter={this.state.attendingFilter} />
                         <table className="table table-striped">
-                            <thead>
-                                <tr>
-                                    <ListHeader 
-                                    sortedBy={this.state.sortedBy}
-                                    ascending={this.state.sortAscending}
-                                    colName="id"
-                                    updateSortState={this.updateSortState} >
-                                        Guest ID
-                                    </ListHeader>
-                                    <ListHeader>Title</ListHeader>
-                                    <ListHeader 
-                                    sortedBy={this.state.sortedBy}
-                                    ascending={this.state.sortAscending}
-                                    colName="first_name"
-                                    updateSortState={this.updateSortState} >
-                                        First Name
-                                    </ListHeader>
-                                    <ListHeader 
-                                    sortedBy={this.state.sortedBy}
-                                    ascending={this.state.sortAscending}
-                                    colName="last_name"
-                                    updateSortState={this.updateSortState} >
-                                        Last Name
-                                    </ListHeader>
-                                    <ListHeader>Suffix</ListHeader>
-                                    <ListHeader 
-                                    sortedBy={this.state.sortedBy}
-                                    ascending={this.state.sortAscending}
-                                    colName="group_num"
-                                    updateSortState={this.updateSortState} >
-                                        Group Number
-                                    </ListHeader>
-                                    <ListHeader>Attending</ListHeader>
-                                    <ListHeader>+1</ListHeader>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.activeData
-                                    .filter(guest => this.filterData(guest))
-                                    .map(guest => {
-                                    let guestId = `guest${guest.id}`;
-                                    
-                                    return (
-                                        <tr key={guestId}>
-                                            <th>{guest.id}</th>
-                                            <th>{guest.title}</th>
-                                            <th>{guest.first_name}</th>
-                                            <th>{guest.last_name}</th>
-                                            <th>{guest.suffix}</th>
-                                            <th>{guest.group_num}</th>
-                                            <th>
-                                                {guest.attending === null ? 'No Response'
-                                                : guest.attending ? 'Yes'
-                                                : 'No'}
-                                            </th>
-                                            <th>{guest.guest_attending ? 'Yes' : 'No'}</th>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
+                            <ListHeaderGroup 
+                                sortedBy={this.state.sortedBy}
+                                ascending={this.state.sortAscending}
+                                updateSortState={this.updateSortState} />
+                            <ListBody 
+                                activeData={this.state.activeData} 
+                                filterData={this.filterData} />
                         </table>
                     </div>
                 </div>

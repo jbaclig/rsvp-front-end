@@ -8,52 +8,8 @@ class RSVP extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //endpoint: 'https://jkbaclig-rsvp.herokuapp.com',
-            endpoint: 'http://localhost:5000',
-            /*guests: [
-                {
-                    title: 'Mr.',
-                    first_name: 'Crispin',
-                    last_name: 'Baclig',
-                    suffix: 'Sr.',
-                    allow_guest: false,
-                    attending: null,
-                    group_num: 24,
-                    guest_attending: false
-                },
-                {
-                    title: 'Mr.',
-                    first_name: 'Crispin',
-                    last_name: 'Baclig',
-                    suffix: 'Jr.',
-                    allow_guest: false,
-                    attending: null,
-                    group_num: 1,
-                    guest_attending: false
-                },
-                {
-                    title: 'Mr.',
-                    first_name: 'Camille',
-                    last_name: 'Fritsch',
-                    allow_guest: true,
-                    attending: null,
-                    group_num: 19,
-                    guest_attending: false
-                }
-            ],
-            groupId: 19,
-            rsvpSent: true,
-            updatedGroup: [
-                {
-                    title: 'Mr.',
-                    first_name: 'Camille',
-                    last_name: 'Fritsch',
-                    allow_guest: true,
-                    attending: true,
-                    group_num: 19,
-                    guest_attending: true
-                }
-            ]*/
+            endpoint: 'https://jkbaclig-rsvp.herokuapp.com',
+            //endpoint: 'http://localhost:5000',
         };
         this.setGuests = this.setGuests.bind(this);
         this.setGroupId = this.setGroupId.bind(this);

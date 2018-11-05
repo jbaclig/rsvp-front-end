@@ -7,8 +7,8 @@ class Admin extends Component {
         super(props);
 
         this.state = {
-            endpoint: 'http://localhost:5000',
-            //endpoint: 'https://jkbaclig-rsvp.herokuapp.com',
+            //endpoint: 'http://localhost:5000',
+            endpoint: 'https://jkbaclig-rsvp.herokuapp.com',
             loggedIn: true
         };
 

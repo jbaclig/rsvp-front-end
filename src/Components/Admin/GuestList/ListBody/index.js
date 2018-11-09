@@ -5,22 +5,22 @@ class ListBody extends Component {
         super(props)
 
         this.state = {
-            activeData: this.props.activeData
+            data: this.props.data
         }
     }
 
     static getDerivedStateFromProps(nextProps) {
-        return { activeData: nextProps.activeData }
+        return { data: nextProps.data }
     }
 
     render() {
         return (
-            <tbody>
-                {this.state.activeData
-                    .filter(guest => this.props.filterData(guest))
-                    .map(guest => {
+            <tbody>{this.state.data.map(guest => {
                     let guestId = `guest${guest.id}`;
-                    
+                    let attending = guest.attending === null ? 'No Response'
+                        : guest.attending ? 'Yes'
+                        : 'No';
+
                     return (
                         <tr key={guestId}>
                             <th>{guest.id}</th>
@@ -29,16 +29,11 @@ class ListBody extends Component {
                             <th>{guest.last_name}</th>
                             <th>{guest.suffix}</th>
                             <th>{guest.group_num}</th>
-                            <th>
-                                {guest.attending === null ? 'No Response'
-                                : guest.attending ? 'Yes'
-                                : 'No'}
-                            </th>
+                            <th>{attending}</th>
                             <th>{guest.guest_attending ? 'Yes' : 'No'}</th>
                         </tr>
                     )
-                })}
-            </tbody>
+                })}</tbody>
         )
     }
 }

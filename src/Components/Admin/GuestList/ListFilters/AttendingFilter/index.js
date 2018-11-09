@@ -29,7 +29,7 @@ class AttendingFilter extends Component {
 
     render() {
         return (
-            <div className='col attending-filter'>
+            <div className='col-md attending-filter'>
                 <fieldset>
                     <legend>Filter By Attending</legend>
                     <div className='form-check form-check-inline'>
@@ -41,7 +41,7 @@ class AttendingFilter extends Component {
                         value='Yes' 
                         checked={this.state.filterVal==='Yes'}
                         onChange={this.handleAttendingChange} />
-                        <label className='form-check-label' for='attendingYes'>
+                        <label className='form-check-label' htmlFor='attendingYes'>
                             Yes
                         </label>
                     </div>
@@ -54,7 +54,7 @@ class AttendingFilter extends Component {
                         value='No'
                         checked={this.state.filterVal==='No'}
                         onChange={this.handleAttendingChange} />
-                        <label className='form-check-label' for='attendingNo'>
+                        <label className='form-check-label' htmlFor='attendingNo'>
                             No
                         </label>
                     </div>
@@ -67,12 +67,12 @@ class AttendingFilter extends Component {
                         value='No Response' 
                         checked={this.state.filterVal==='No Response'}
                         onChange={this.handleAttendingChange} />
-                        <label className='form-check-label' for='attendingNoResponse'>
+                        <label className='form-check-label' htmlFor='attendingNoResponse'>
                             No Response
                         </label>
                     </div>
                     <button 
-                    class="btn btn-secondary m-2"
+                    className="btn btn-secondary m-2"
                     onClick={this.handleClearClick}>Clear</button>
                 </fieldset>
             </div>

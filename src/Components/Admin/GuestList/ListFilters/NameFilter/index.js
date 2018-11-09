@@ -19,7 +19,7 @@ class NameFilter extends Component {
 
     render() {
         return (
-            <div className="form-group col">
+            <div className="form-group col-md">
                 <label htmlFor="name-filter">Find Guest</label>
                 <input 
                 className="form-control"

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ListHeaderGroup from './ListHeaderGroup';
 import ListFilters from './ListFilters';
 import ListBody from './ListBody';
+import Chart from './Chart';
 
 class GuestList extends Component {
     constructor(props) {
@@ -10,10 +11,11 @@ class GuestList extends Component {
         this.state = {
             data: [],
             activeData: [],
+            filteredData: [],
             sortedBy: 'id',
             sortAscending: true,
             nameFilter: '',
-            attendingFilter: ''
+            attendingFilter: '',
         };
 
         this.sortData = this.sortData.bind(this);
@@ -82,27 +84,30 @@ class GuestList extends Component {
         let stateUpdate = {};
 
         stateUpdate[filterName] = filterVal;
-        this.setState(stateUpdate);
+        this.setState(stateUpdate, () => console.log(this.state));
     }
 
     render() {
+        let filteredData = 
+            this.state.activeData.filter(guest => this.filterData(guest));
         return (
             <div className="container-fluid p-0">
                 <div className="row justify-content-center px-3 mx-0">
                     <div className="col">
                         <h1 className="text-center">GuestList</h1>
+                        <Chart 
+                            data={filteredData} />
                         <ListFilters 
-                        updateFilterState={this.updateFilterState}
-                        updateNameFilter={this.updateNameFilter}
-                        attendingFilter={this.state.attendingFilter} />
+                            updateFilterState={this.updateFilterState}
+                            updateNameFilter={this.updateNameFilter}
+                            attendingFilter={this.state.attendingFilter} />
                         <table className="table table-striped">
                             <ListHeaderGroup 
                                 sortedBy={this.state.sortedBy}
                                 ascending={this.state.sortAscending}
                                 updateSortState={this.updateSortState} />
                             <ListBody 
-                                activeData={this.state.activeData} 
-                                filterData={this.filterData} />
+                                data={filteredData} />
                         </table>
                     </div>
                 </div>

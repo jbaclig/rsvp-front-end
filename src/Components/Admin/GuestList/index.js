@@ -88,15 +88,55 @@ class GuestList extends Component {
     }
 
     render() {
+        let totals = {
+            yes: 0,
+            no: 0,
+            plusOne: 0,
+            noResponse: 0
+        };
+
         let filteredData = 
             this.state.activeData.filter(guest => this.filterData(guest));
+        let rows = filteredData.map(guest => {
+            let guestId = `guest${guest.id}`;
+            let attending;
+
+            if(guest.attending === null) {
+                attending = 'No Response';
+                totals.noResponse++;
+            }
+            else if(guest.attending) {
+                attending = 'Yes';
+                totals.yes++;
+                if(guest.guest_attending)
+                    totals.plusOne++;
+            }
+            else {
+                attending = 'No';
+                totals.no++;
+            }
+
+            return (
+                <tr key={guestId}>
+                    <th>{guest.id}</th>
+                    <th>{guest.title}</th>
+                    <th>{guest.first_name}</th>
+                    <th>{guest.last_name}</th>
+                    <th>{guest.suffix}</th>
+                    <th>{guest.group_num}</th>
+                    <th>{attending}</th>
+                    <th>{guest.guest_attending ? 'Yes' : 'No'}</th>
+                </tr>
+            );
+        });
+
         return (
             <div className="container-fluid p-0">
                 <div className="row justify-content-center px-3 mx-0">
                     <div className="col">
                         <h1 className="text-center">GuestList</h1>
                         <Chart 
-                            data={filteredData} />
+                            data={totals} />
                         <ListFilters 
                             updateFilterState={this.updateFilterState}
                             updateNameFilter={this.updateNameFilter}
@@ -107,7 +147,7 @@ class GuestList extends Component {
                                 ascending={this.state.sortAscending}
                                 updateSortState={this.updateSortState} />
                             <ListBody 
-                                data={filteredData} />
+                                data={rows} />
                         </table>
                     </div>
                 </div>

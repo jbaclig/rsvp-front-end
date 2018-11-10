@@ -14,28 +14,9 @@ class ListBody extends Component {
     }
 
     render() {
-        return (
-            <tbody>{this.state.data.map(guest => {
-                    let guestId = `guest${guest.id}`;
-                    let attending = guest.attending === null ? 'No Response'
-                        : guest.attending ? 'Yes'
-                        : 'No';
-
-                    return (
-                        <tr key={guestId}>
-                            <th>{guest.id}</th>
-                            <th>{guest.title}</th>
-                            <th>{guest.first_name}</th>
-                            <th>{guest.last_name}</th>
-                            <th>{guest.suffix}</th>
-                            <th>{guest.group_num}</th>
-                            <th>{attending}</th>
-                            <th>{guest.guest_attending ? 'Yes' : 'No'}</th>
-                        </tr>
-                    )
-                })}</tbody>
-        )
+        console.log('data:', this.state.data);
+        return <tbody>{this.state.data}</tbody>
     }
 }
 
-export default ListBody
+export default ListBody;

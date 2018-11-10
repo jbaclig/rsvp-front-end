@@ -21,18 +21,10 @@ class Chart extends Component {
     }
 
     render() {
-        let yes = 0, no = 0, plusOne = 0, noResponse = 0;
-
-        this.state.data.forEach(guest => {
-            if(guest.attending === null) noResponse ++
-            else if(guest.attending) {
-                yes++;
-                if(guest.guest_attending)
-                    plusOne++;
-            } 
-            else
-                no++;
-        });
+        let yes = this.state.data.yes, 
+            no = this.state.data.no, 
+            plusOne = this.state.data.plusOne, 
+            noResponse = this.state.data.noResponse;
 
         let chartData = {
             labels: ['Yes', '+1', 'No', 'No Response'],

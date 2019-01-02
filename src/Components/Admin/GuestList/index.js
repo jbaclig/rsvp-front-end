@@ -4,6 +4,9 @@ import ListFilters from './ListFilters';
 import ListBody from './ListBody';
 import Chart from './Chart';
 
+import 'isomorphic-fetch';
+
+
 class GuestList extends Component {
     constructor(props) {
         super(props);

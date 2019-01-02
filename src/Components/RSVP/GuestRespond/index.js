@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Guest from '../Guest';
+import 'isomorphic-fetch';
+
 
 class GuestRespond extends Component {
     constructor(props) {

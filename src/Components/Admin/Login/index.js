@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import 'isomorphic-fetch';
+
 
 class Login extends Component {
     constructor(props) {
